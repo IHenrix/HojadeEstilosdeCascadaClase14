@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input
                     type="email"
                     name="correo"
-                    value="<?= htmlspecialchars($_POST['correo'] ?? '') ?>"
+                    value="<?= htmlspecialchars($_POST['correo'] ?? 'administrador@utp.edu.pe') ?>"
                     placeholder="correo@ejemplo.com"
                     required
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
@@ -72,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input
                     type="password"
                     name="pass"
+                    value="Marco1415"
                     placeholder="********"
                     required
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
