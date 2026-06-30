@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS usuarios;
+DROP TABLE IF EXISTS usuario;
 DROP TABLE IF EXISTS administradores;
 
 CREATE TABLE administradores (
@@ -8,7 +8,7 @@ CREATE TABLE administradores (
     pass    VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE usuarios (
+CREATE TABLE usuario (
     id         SERIAL PRIMARY KEY,
     nombre     VARCHAR(100) NOT NULL,
     apellido   VARCHAR(100) NOT NULL,
@@ -17,12 +17,9 @@ CREATE TABLE usuarios (
 );
 
 INSERT INTO administradores (nombre, correo, pass) VALUES
-('Enrique Prada', 'administrador@utp.edu.pe', '$2y$10$gwFVLILzLIAJG8Ba0bS.aupWyhtbLbnJOxnJQYgFQ4AzagxSLSwP.');
+('Enrique Prada', 'administrador@utp.edu.pe', '$2y$10$gwFVLILzLIAJG8Ba0bS.aupWyhtbLbnJOxnJQYgFQ4AzagxSLSwP.'); -- contraseña: Marco1415
 
---Contraseña Marco1415
-
-
-INSERT INTO usuarios (nombre, apellido, distrito) VALUES
+INSERT INTO usuario (nombre, apellido, distrito) VALUES
 ('Ana',    'Pérez',   'Los Olivos'),
 ('Carlos', 'Gómez',   'Comas'),
 ('Lucía',  'Torres',  'Independencia'),

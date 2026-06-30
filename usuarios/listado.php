@@ -9,7 +9,7 @@ require '../includes/conexion.php';
 
 if (isset($_GET['eliminar'])) {
     $id = (int) $_GET['eliminar'];
-    $stmt = $conn->prepare('DELETE FROM usuarios WHERE id = ?');
+    $stmt = $conn->prepare('DELETE FROM usuario WHERE id = ?');
     $stmt->execute([$id]);
     header('Location: listado.php?exito=eliminado');
     exit;
@@ -18,12 +18,12 @@ if (isset($_GET['eliminar'])) {
 $por_pagina    = 5;
 $pagina        = max(1, (int) ($_GET['pagina'] ?? 1));
 $offset        = ($pagina - 1) * $por_pagina;
-$total         = (int) $conn->query('SELECT COUNT(*) FROM usuarios')->fetchColumn();
+$total         = (int) $conn->query('SELECT COUNT(*) FROM usuario')->fetchColumn();
 $total_paginas = (int) ceil($total / $por_pagina);
 
-$stmt = $conn->prepare('SELECT id, nombre, apellido, distrito FROM usuarios ORDER BY id DESC LIMIT ? OFFSET ?');
+$stmt = $conn->prepare('SELECT id, nombre, apellido, distrito FROM usuario ORDER BY id DESC LIMIT ? OFFSET ?');
 $stmt->execute([$por_pagina, $offset]);
-$usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$usuario = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $exito = $_GET['exito'] ?? '';
 ?>
@@ -47,7 +47,7 @@ $exito = $_GET['exito'] ?? '';
             <h1 class="text-3xl font-bold text-indigo-600">
                 Lista de Usuarios
             </h1>
-            <a href="../usuarios/registro.php"
+            <a href="../usuario/registro.php"
                class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition font-semibold">
                 + Registrar
             </a>
@@ -79,13 +79,13 @@ $exito = $_GET['exito'] ?? '';
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (empty($usuarios)): ?>
+                    <?php if (empty($usuario)): ?>
                     <tr>
-                        <td colspan="5" class="p-6 text-center text-gray-400">No hay usuarios registrados.</td>
+                        <td colspan="5" class="p-6 text-center text-gray-400">No hay usuario registrados.</td>
                     </tr>
                     <?php endif; ?>
 
-                    <?php $contador = $offset + 1; foreach ($usuarios as $u): ?>
+                    <?php $contador = $offset + 1; foreach ($usuario as $u): ?>
                     <tr class="border-b hover:bg-gray-100">
                         <td class="p-3"><?= $contador++ ?></td>
                         <td class="p-3"><?= htmlspecialchars($u['nombre']) ?></td>

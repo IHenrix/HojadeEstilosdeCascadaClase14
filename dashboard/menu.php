@@ -7,8 +7,8 @@ if (!isset($_SESSION['admin_id'])) {
 
 require '../includes/conexion.php';
 
-$total_usuarios = (int) $conn->query('SELECT COUNT(*) FROM usuarios')->fetchColumn();
-$total_distritos = (int) $conn->query('SELECT COUNT(DISTINCT distrito) FROM usuarios')->fetchColumn();
+$total_usuarios = (int) $conn->query('SELECT COUNT(*) FROM usuario')->fetchColumn();
+$total_distritos = (int) $conn->query('SELECT COUNT(DISTINCT distrito) FROM usuario')->fetchColumn();
 
 $nombre = htmlspecialchars($_SESSION['admin_nombre']);
 ?>

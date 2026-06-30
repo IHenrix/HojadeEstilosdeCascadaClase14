@@ -13,7 +13,7 @@ if ($id === 0) {
     exit;
 }
 
-$stmt = $conn->prepare('SELECT id, nombre, apellido, distrito FROM usuarios WHERE id = ?');
+$stmt = $conn->prepare('SELECT id, nombre, apellido, distrito FROM usuario WHERE id = ?');
 $stmt->execute([$id]);
 $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error   = 'Por favor completa todos los campos.';
         $usuario = ['nombre' => $nombre, 'apellido' => $apellido, 'distrito' => $distrito];
     } else {
-        $stmt = $conn->prepare('UPDATE usuarios SET nombre = ?, apellido = ?, distrito = ? WHERE id = ?');
+        $stmt = $conn->prepare('UPDATE usuario SET nombre = ?, apellido = ?, distrito = ? WHERE id = ?');
         if ($stmt->execute([$nombre, $apellido, $distrito, $id])) {
             header('Location: listado.php?exito=editado');
             exit;

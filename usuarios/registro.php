@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($nombre === '' || $apellido === '' || $distrito === '') {
         $error = 'Por favor completa todos los campos.';
     } else {
-        $stmt = $conn->prepare('INSERT INTO usuarios (nombre, apellido, distrito) VALUES (?, ?, ?)');
+        $stmt = $conn->prepare('INSERT INTO usuario (nombre, apellido, distrito) VALUES (?, ?, ?)');
         if ($stmt->execute([$nombre, $apellido, $distrito])) {
             header('Location: listado.php?exito=1');
             exit;
