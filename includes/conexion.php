@@ -1,7 +1,7 @@
 <?php
 $host   = getenv('PGHOST')     ?: 'localhost';
 $puerto = getenv('PGPORT')     ?: 5432;
-$dbname = getenv('PGDATABASE') ?: 'bd_utp';
+$dbname = getenv('PGDATABASE') ?: 'railway';
 $user   = getenv('PGUSER')     ?: 'postgres';
 $pass   = getenv('PGPASSWORD') ?: '1234';
 
