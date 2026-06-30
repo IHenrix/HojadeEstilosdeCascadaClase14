@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($nombre === '' || $apellido === '' || $distrito === '') {
         $error = 'Por favor completa todos los campos.';
     } else {
-        $stmt = $conn->prepare('INSERT INTO usuario (nombre, apellido, distrito) VALUES (?, ?, ?)');
+        $stmt = $conn->prepare('INSERT INTO cliente (nombre, apellido, distrito) VALUES (?, ?, ?)');
         if ($stmt->execute([$nombre, $apellido, $distrito])) {
             header('Location: listado.php?exito=1');
             exit;
@@ -98,7 +98,7 @@ $distritos = ['Los Olivos', 'Comas', 'Independencia', 'San Martín de Porres', '
 
         </form>
 
-        <a href="../dashboard/menu.php"
+        <a href="listado.php"
            class="mt-6 flex items-center justify-center w-full bg-gray-200 text-gray-700 text-xl font-semibold py-4 rounded-2xl hover:bg-gray-300 transition duration-300">
             ← Volver al Menú
         </a>

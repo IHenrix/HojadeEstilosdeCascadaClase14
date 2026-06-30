@@ -9,21 +9,26 @@ require '../includes/conexion.php';
 
 if (isset($_GET['eliminar'])) {
     $id = (int) $_GET['eliminar'];
-    $stmt = $conn->prepare('DELETE FROM usuario WHERE id = ?');
-    $stmt->execute([$id]);
-    header('Location: listado.php?exito=eliminado');
+    $check = $conn->prepare('SELECT COUNT(*) FROM venta WHERE cliente_id = ?');
+    $check->execute([$id]);
+    if ($check->fetchColumn() > 0) {
+        header('Location: listado.php?exito=no_eliminar');
+    } else {
+        $conn->prepare('DELETE FROM cliente WHERE id = ?')->execute([$id]);
+        header('Location: listado.php?exito=eliminado');
+    }
     exit;
 }
 
 $por_pagina    = 5;
 $pagina        = max(1, (int) ($_GET['pagina'] ?? 1));
 $offset        = ($pagina - 1) * $por_pagina;
-$total         = (int) $conn->query('SELECT COUNT(*) FROM usuario')->fetchColumn();
+$total         = (int) $conn->query('SELECT COUNT(*) FROM cliente')->fetchColumn();
 $total_paginas = (int) ceil($total / $por_pagina);
 
-$stmt = $conn->prepare('SELECT id, nombre, apellido, distrito FROM usuario ORDER BY id DESC LIMIT ? OFFSET ?');
+$stmt = $conn->prepare('SELECT id, nombre, apellido, distrito FROM cliente ORDER BY id DESC LIMIT ? OFFSET ?');
 $stmt->execute([$por_pagina, $offset]);
-$usuario = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$cliente = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $exito = $_GET['exito'] ?? '';
 ?>
@@ -47,7 +52,7 @@ $exito = $_GET['exito'] ?? '';
             <h1 class="text-3xl font-bold text-indigo-600">
                 Lista de Usuarios
             </h1>
-            <a href="../usuario/registro.php"
+            <a href="registro.php"
                class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition font-semibold">
                 + Registrar
             </a>
@@ -65,6 +70,10 @@ $exito = $_GET['exito'] ?? '';
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4">
             Usuario eliminado.
         </div>
+        <?php elseif ($exito === 'no_eliminar'): ?>
+        <div class="bg-orange-100 border border-orange-400 text-orange-700 px-4 py-3 rounded-lg mb-4">
+            No se puede eliminar: este cliente tiene ventas asociadas.
+        </div>
         <?php endif; ?>
 
         <div class="overflow-x-auto">
@@ -79,13 +88,13 @@ $exito = $_GET['exito'] ?? '';
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (empty($usuario)): ?>
+                    <?php if (empty($cliente)): ?>
                     <tr>
-                        <td colspan="5" class="p-6 text-center text-gray-400">No hay usuario registrados.</td>
+                        <td colspan="5" class="p-6 text-center text-gray-400">No hay cliente registrados.</td>
                     </tr>
                     <?php endif; ?>
 
-                    <?php $contador = $offset + 1; foreach ($usuario as $u): ?>
+                    <?php $contador = $offset + 1; foreach ($cliente as $u): ?>
                     <tr class="border-b hover:bg-gray-100">
                         <td class="p-3"><?= $contador++ ?></td>
                         <td class="p-3"><?= htmlspecialchars($u['nombre']) ?></td>
@@ -97,7 +106,7 @@ $exito = $_GET['exito'] ?? '';
                                 Editar
                             </a>
                             <a href="listado.php?eliminar=<?= $u['id'] ?>"
-                               onclick="return confirm('¿Eliminar este usuario?')"
+                               onclick="return confirm('¿Eliminar este cliente?')"
                                class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 ml-2 inline-block">
                                 Eliminar
                             </a>

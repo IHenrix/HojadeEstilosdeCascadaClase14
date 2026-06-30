@@ -13,11 +13,11 @@ if ($id === 0) {
     exit;
 }
 
-$stmt = $conn->prepare('SELECT id, nombre, apellido, distrito FROM usuario WHERE id = ?');
+$stmt = $conn->prepare('SELECT id, nombre, apellido, distrito FROM cliente WHERE id = ?');
 $stmt->execute([$id]);
-$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+$cliente = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (!$usuario) {
+if (!$cliente) {
     header('Location: listado.php');
     exit;
 }
@@ -31,9 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($nombre === '' || $apellido === '' || $distrito === '') {
         $error   = 'Por favor completa todos los campos.';
-        $usuario = ['nombre' => $nombre, 'apellido' => $apellido, 'distrito' => $distrito];
+        $cliente = ['nombre' => $nombre, 'apellido' => $apellido, 'distrito' => $distrito];
     } else {
-        $stmt = $conn->prepare('UPDATE usuario SET nombre = ?, apellido = ?, distrito = ? WHERE id = ?');
+        $stmt = $conn->prepare('UPDATE cliente SET nombre = ?, apellido = ?, distrito = ? WHERE id = ?');
         if ($stmt->execute([$nombre, $apellido, $distrito, $id])) {
             header('Location: listado.php?exito=editado');
             exit;
@@ -75,7 +75,7 @@ $distritos = ['Los Olivos', 'Comas', 'Independencia', 'San Martín de Porres', '
                 <input
                     type="text"
                     name="nombre"
-                    value="<?= htmlspecialchars($usuario['nombre']) ?>"
+                    value="<?= htmlspecialchars($cliente['nombre']) ?>"
                     required
                     class="w-full p-5 text-2xl border border-red-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
             </div>
@@ -85,7 +85,7 @@ $distritos = ['Los Olivos', 'Comas', 'Independencia', 'San Martín de Porres', '
                 <input
                     type="text"
                     name="apellido"
-                    value="<?= htmlspecialchars($usuario['apellido']) ?>"
+                    value="<?= htmlspecialchars($cliente['apellido']) ?>"
                     required
                     class="w-full p-5 text-2xl border border-red-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
             </div>
@@ -97,7 +97,7 @@ $distritos = ['Los Olivos', 'Comas', 'Independencia', 'San Martín de Porres', '
                     required
                     class="w-full p-5 text-2xl border border-red-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <?php foreach ($distritos as $d): ?>
-                    <option value="<?= $d ?>" <?= $usuario['distrito'] === $d ? 'selected' : '' ?>>
+                    <option value="<?= $d ?>" <?= $cliente['distrito'] === $d ? 'selected' : '' ?>>
                         <?= $d ?>
                     </option>
                     <?php endforeach; ?>

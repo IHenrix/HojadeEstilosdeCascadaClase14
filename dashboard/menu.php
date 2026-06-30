@@ -7,8 +7,9 @@ if (!isset($_SESSION['admin_id'])) {
 
 require '../includes/conexion.php';
 
-$total_usuarios = (int) $conn->query('SELECT COUNT(*) FROM usuario')->fetchColumn();
-$total_distritos = (int) $conn->query('SELECT COUNT(DISTINCT distrito) FROM usuario')->fetchColumn();
+$total_ventas   = (int) $conn->query('SELECT COUNT(*) FROM venta')->fetchColumn();
+$total_clientes = (int) $conn->query('SELECT COUNT(*) FROM cliente')->fetchColumn();
+$total_productos = (int) $conn->query('SELECT COUNT(*) FROM producto')->fetchColumn();
 
 $nombre = htmlspecialchars($_SESSION['admin_nombre']);
 ?>
@@ -35,15 +36,15 @@ $nombre = htmlspecialchars($_SESSION['admin_nombre']);
             <nav class="mt-6">
 
                 <a href="../usuarios/listado.php" class="flex items-center px-6 py-4 hover:bg-red-800 transition">
-                    ⚙️ <span class="ml-3">Lista de Usuarios</span>
+                    👥 <span class="ml-3">Clientes</span>
                 </a>
 
-                <a href="../usuarios/registro.php" class="flex items-center px-6 py-4 hover:bg-red-800 transition">
-                    🛠️ <span class="ml-3">Registro de Usuarios</span>
+                <a href="../productos/listado.php" class="flex items-center px-6 py-4 hover:bg-red-800 transition">
+                    📦 <span class="ml-3">Productos</span>
                 </a>
 
-                <a href="#" class="flex items-center px-6 py-4 hover:bg-red-800 transition">
-                    📊 <span class="ml-3">Reportes</span>
+                <a href="../ventas/listado.php" class="flex items-center px-6 py-4 hover:bg-red-800 transition">
+                    🛒 <span class="ml-3">Ventas</span>
                 </a>
 
             </nav>
@@ -79,18 +80,18 @@ $nombre = htmlspecialchars($_SESSION['admin_nombre']);
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
                     <div class="bg-white p-6 rounded-xl shadow-lg">
-                        <h4 class="text-xl font-bold text-gray-700">Ventas del Día</h4>
-                        <p class="text-4xl text-green-600 mt-4"><?= $total_usuarios ?></p>
+                        <h4 class="text-xl font-bold text-gray-700">Ventas</h4>
+                        <p class="text-4xl text-green-600 mt-4"><?= $total_ventas ?></p>
                     </div>
 
                     <div class="bg-white p-6 rounded-xl shadow-lg">
                         <h4 class="text-xl font-bold text-gray-700">Productos</h4>
-                        <p class="text-4xl text-blue-600 mt-4"><?= $total_distritos ?></p>
+                        <p class="text-4xl text-blue-600 mt-4"><?= $total_productos ?></p>
                     </div>
 
                     <div class="bg-white p-6 rounded-xl shadow-lg">
                         <h4 class="text-xl font-bold text-gray-700">Clientes</h4>
-                        <p class="text-4xl text-red-600 mt-4"><?= $total_usuarios ?></p>
+                        <p class="text-4xl text-red-600 mt-4"><?= $total_clientes ?></p>
                     </div>
 
                 </div>
