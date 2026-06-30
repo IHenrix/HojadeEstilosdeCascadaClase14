@@ -98,6 +98,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="usuarios/registro.php" class="text-indigo-600 font-semibold hover:underline">Regístrate</a>
         </p>
 
+        <div class="mt-6 p-3 bg-gray-50 rounded-lg text-sm text-gray-500 text-center">
+            <span class="font-semibold">Usuario:</span> administrador@utp.edu.pe &nbsp;|&nbsp;
+            <span class="font-semibold">Contraseña:</span> Marco1415
+        </div>
+
     </div>
 
 </body>
